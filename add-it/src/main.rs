@@ -2,11 +2,11 @@
 
 #[macro_use] extern crate rocket;
 
-#[get("/submit/<num>")]
+#[get("/hi?wave&<num>")]
 fn number(num: isize) -> String {
     let result = num +50;
 
-    format!("Your result is {}", result)
+    format!("You've typed {} and the result is {}", num, result)
 }
 
 fn main() {
