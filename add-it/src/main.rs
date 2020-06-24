@@ -2,15 +2,26 @@
 
 #[macro_use] extern crate rocket;
 
-#[get("/hi?wave&<num>")]
-fn number(num: isize) -> String {
-    let result = num +50;
+use rocket::request::Form;
 
-    format!("You've typed {} and the result is {}", num, result)
+#[get("/")]
+fn intro() -> String {
+    format!("Please Enter your number at e.g: /get?number=100")
+}
+
+#[derive(FromForm)]
+struct Num {
+    number: usize,
+}
+
+#[get("/get?<num..>")]
+fn gettin(num: Form<Num>) -> String {
+    let result = num.number + 50;
+    format!(" You have entered {} and answer after adding 50 is: {}", num.number, result)
 }
 
 fn main() {
     rocket::ignite()
-    .mount("/", routes![number])
+    .mount("/", routes![intro, gettin])
     .launch();
 }
